@@ -1,0 +1,14 @@
+FROM gradle:8.14.0-jdk17-alpine
+
+ENV DB_USER=root \
+	DB_PWD=mysql \
+	DB_SERVER=db \
+	DB_NAME=testdb
+
+WORKDIR /home/app
+
+EXPOSE 8080
+
+COPY ./build/libs/docker-exercises-project-1.0-SNAPSHOT.jar app.jar
+
+CMD ["java", "-jar", "app.jar"]

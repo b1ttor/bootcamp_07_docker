@@ -8,6 +8,15 @@ services:
        MYSQL_ROOT_PASSWORD: ${DB_PWD}
        MYSQL_DATABASE: ${DB_NAME}
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-pmysql"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - ./mysql:/var/lib/mysql
+
+  
   phpmyadmin:
     image: phpmyadmin:5.2
     ports: 
@@ -17,3 +26,11 @@ services:
        PMA_USER: ${DB_USER}
        PMA_PASSWORD: ${DB_PWD}
     restart: unless-stopped
+
+  app:
+    build: ./docker-exercises
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - 8080:8080
