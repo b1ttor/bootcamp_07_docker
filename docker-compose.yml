@@ -20,7 +20,7 @@ services:
   phpmyadmin:
     image: phpmyadmin:5.2
     ports: 
-      - 8081:80
+      - 8082:80
     environment:
        PMA_HOST: db
        PMA_USER: ${DB_USER}
@@ -34,3 +34,8 @@ services:
         condition: service_healthy
     ports:
       - 8080:8080
+    environment:
+      DB_USER: ${DB_USER}
+      DB_PWD: ${DB_PWD}
+      DB_SERVER: db
+      DB_NAME: ${DB_NAME}
